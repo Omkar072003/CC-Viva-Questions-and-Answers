@@ -11,14 +11,8 @@
       background: linear-gradient(to bottom, #e0f7fa, #ffffff);
       min-height: 100vh;
     }
-    .cloud-bg {
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><path d="M50 60c-20 0-30-15-30-25s10-20 25-20c15 0 25 10 30 20 15-10 35-5 45 10s5 35-15 40c-20 5-45-10-55-25z" fill="%23ffffff" fill-opacity="0.3"/></svg>');
-      background-repeat: no-repeat;
-      background-position: top center;
-      background-size: cover;
-    }
     .question-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.3s ease;
     }
     .question-card:hover {
       transform: translateY(-2px);
@@ -35,18 +29,31 @@
       opacity: 0;
       pointer-events: none;
     }
+    .nav-menu-mobile:not(.hidden) {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
     .nav-link {
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .nav-link:hover {
+      transform: scale(1.05);
     }
     .answer {
-      transition: max-height 0.3s ease, opacity 0.3s ease;
-      max-height: 0;
-      opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
       overflow: hidden;
+      max-height: 0;
     }
     .answer:not(.hidden) {
       max-height: 500px; /* Adjust based on content */
-      opacity: 1;
+    }
+    .answer.hidden {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    .toggle-btn {
+      transition: color 0.2s ease, background-color 0.2s ease;
     }
     .hamburger-line {
       transition: transform 0.3s ease, opacity 0.3s ease;
@@ -60,72 +67,281 @@
     .menu-open .hamburger-line:nth-child(3) {
       transform: rotate(-45deg) translate(7px, -7px);
     }
+    @media (max-width: 640px) {
+      .nav-menu {
+        display: none;
+      }
+      .question-card {
+        padding: 0.75rem;
+      }
+      h1.text-4xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+      }
+      h2.text-2xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+      .text-lg {
+        font-size: 1.125rem;
+      }
+      .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+    @media (min-width: 641px) {
+      .nav-menu-mobile {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body class="font-sans text-gray-800 cloud-bg">
   <!-- Navigation Bar -->
   <nav class="sticky-nav sticky top-0 bg-purple-800 text-cyan-400 p-4 shadow-md z-10">
     <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold text-cyan-200 md:text-2xl">Cloud Computing Lab Viva</h1>
-      <button 
-        class="md:hidden focus:outline-none" 
-        id="menu-toggle" 
-        aria-label="Toggle navigation menu" 
-        aria-expanded="false"
-      >
-        <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <h1 class="text-xl font-bold text-cyan-200 sm:text-2xl">Cloud Computing Lab Viva</h1>
+      <button class="sm:hidden focus:outline-none" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path class="hamburger-line" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"></path>
           <path class="hamburger-line" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"></path>
           <path class="hamburger-line" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"></path>
         </svg>
       </button>
-      <ul class="nav-menu hidden md:flex md:space-x-4 md:items-center">
-        <li><a href="#hosted" class="nav-link hover:text-lime-300">Hosted Virtualization</a></li>
-        <li><a href="#bare-metal" class="nav-link hover:text-lime-300">Bare-Metal</a></li>
-        <li><a href="#iaas" class="nav-link hover:text-lime-300">IaaS</a></li>
-        <li><a href="#paas" class="nav-link hover:text-lime-300">PaaS</a></li>
-        <li><a href="#iam" class="nav-link hover:text-lime-300">IAM</a></li>
-        <li><a href="#security" class="nav-link hover:text-lime-300">Security</a></li>
-        <li><a href="#storage" class="nav-link hover:text-lime-300">Storage</a></li>
-        <li><a href="#dbaas" class="nav-link hover:text-lime-300">DBaaS</a></li>
-        <li><a href="#container" class="nav-link hover:text-lime-300">Containerization</a></li>
+      <ul class="nav-menu hidden sm:flex sm:space-x-4 sm:items-center">
+        <li><a href="#hosted" class="nav-link hover:text-lime-300 text-sm lg:text-base">Hosted Virtualization</a></li’.
+        <li><a href="#bare-metal" class="nav-link hover:text-lime-300 text-sm lg:text-base">Bare-Metal</a></li>
+        <li><a href="#iaas" class="nav-link hover:text-lime-300 text-sm lg:text-base">IaaS</a></li>
+        <li><a href="#paas" class="nav-link hover:text-lime-300 text-sm lg:text-base">PaaS</a></li>
+        <li><a href="#iam" class="nav-link hover:text-lime-300 text-sm lg:text-base">IAM</a></li>
+        <li><a href="#security" class="nav-link hover:text-lime-300 text-sm lg:text-base">Security</a></li>
+        <li><a href="#storage" class="nav-link hover:text-lime-300 text-sm lg:text-base">Storage</a></li>
+        <li><a href="#dbaas" class="nav-link hover:text-lime-300 text-sm lg:text-base">DBaaS</a></li>
+        <li><a href="#container" class="nav-link hover:text-lime-300 text-sm lg:text-base">Containerization</a></li>
       </ul>
     </div>
     <!-- Mobile Menu -->
-    <div class="nav-menu-mobile hidden md:hidden bg-purple-900 mt-2 rounded-md shadow-lg absolute w-full left-0">
+    <div class="nav-menu-mobile hidden sm:hidden bg-purple-900 mt-2 rounded-md shadow-lg">
       <ul class="flex flex-col p-4 space-y-2">
-        <li><a href="#hosted" class="nav-link text-cyan-400 hover:text-lime-300">Hosted Virtualization</a></li>
-        <li><a href="#bare-metal" class="nav-link text-cyan-400 hover:text-lime-300">Bare-Metal</a></li>
-        <li><a href="#iaas" class="nav-link text-cyan-400 hover:text-lime-300">IaaS</a></li>
-        <li><a href="#paas" class="nav-link text-cyan-400 hover:text-lime-300">PaaS</a></li>
-        <li><a href="#iam" class="nav-link text-cyan-400 hover:text-lime-300">IAM</a></li>
-        <li><a href="#security" class="nav-link text-cyan-400 hover:text-lime-300">Security</a></li>
-        <li><a href="#storage" class="nav-link text-cyan-400 hover:text-lime-300">Storage</a></li>
-        <li><a href="#dbaas" class="nav-link text-cyan-400 hover:text-lime-300">DBaaS</a></li>
-        <li><a href="#container" class="nav-link text-cyan-400 hover:text-lime-300">Containerization</a></li>
+        <li><a href="#hosted" class="nav-link text-cyan-400 hover:text-lime-300 text-base">Hosted Virtualization</a></li>
+        <li><a href="#bare-metal" class="nav-link text-cyan-400 hover:text-lime-300 text-base">Bare-Metal</a></li>
+        <li><a href="#iaas" class="nav-link text-cyan-400 hover:text-lime-300 text-base">IaaS</a></li>
+        <li><a href="#paas" class="nav-link text-cyan-400 hover:text-lime-300 text-base">PaaS</a></li>
+        <li><a href="#iam" class="nav-link text-cyan-400 hover:text-lime-300 text-base">IAM</a></li>
+        <li><a href="#security" class="nav-link text-cyan-400 hover:text-lime-300 text-base">Security</a></li>
+        <li><a href="#storage" class="nav-link text-cyan-400 hover:text-lime-300 text-base">Storage</a></li>
+        <li><a href="#dbaas" class="nav-link text-cyan-400 hover:text-lime-300 text-base">DBaaS</a></li>
+        <li><a href="#container" class="nav-link text-cyan-400 hover:text-lime-300 text-base">Containerization</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- Main Content -->
-  <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-purple-900 mb-6 md:mb-8">Cloud Computing Lab Viva Questions and Answers</h1>
+  <div class="container mx-auto py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl sm:text-4xl font-bold text-center text-purple-900 mb-6 sm:mb-8">Cloud Computing Lab Viva Questions and Answers</h1>
 
     <!-- Section 1: Hosted Virtualization -->
-    <section id="hosted" class="mb-6 md:mb-8">
+    <section id="hosted" class="mb-8">
       <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">01. Hosted Virtualization using VirtualBox and KVM</h2>
-      <div class="question-card bg-white rounded-lg shadow-md p-4 mb-4">
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
         <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is hosted virtualization?</button>
-        <div class="answer hidden mt-2 text-gray-800">
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
           <p>Hosted virtualization runs virtual machines (VMs) on top of an existing operating system (OS) using virtualization software like VirtualBox or VMware Workstation.<br>
           <span class="text-lime-500">Example: You install VirtualBox on your Windows laptop and run Ubuntu Linux inside it as a virtual machine.</span></p>
         </div>
       </div>
-      <!-- Other question cards remain the same -->
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: What is VirtualBox?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>VirtualBox is a free and open-source virtualization software that lets you create and run multiple operating systems on a single physical computer.<br>
+          <span class="text-lime-500">Example: A developer can test a website in both Windows and Linux using VirtualBox without needing two computers.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q3: What is KVM?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>KVM (Kernel-based Virtual Machine) is a virtualization tool built into Linux. It turns a Linux OS into a hypervisor, allowing you to run virtual machines directly on your system.<br>
+          <span class="text-lime-500">Example: On a Linux server, KVM lets you host multiple VMs like a web server, database server, etc., all on the same machine.</span></p>
+        </div>
+      </div>
     </section>
 
-    <!-- Other sections remain the same for brevity -->
+    <!-- Section 2: Bare-Metal Virtualization -->
+    <section id="bare-metal" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">02. Bare-Metal Virtualization using Xen, Hyper-V, VMware ESXi</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is bare-metal virtualization?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>It is a type of virtualization where the hypervisor is installed directly on the physical hardware, without any operating system underneath.<br>
+          <span class="text-lime-500">Example: VMware ESXi installed directly on a server to run multiple VMs for different departments in a company.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: Difference between Hyper-V and VMware ESXi?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Hyper-V is Microsoft's hypervisor and integrates well with Windows Server. VMware ESXi is a popular hypervisor from VMware, used widely in enterprise environments.<br>
+          <span class="text-lime-500">Example: If a company uses mostly Windows servers, they might choose Hyper-V. For cross-platform flexibility, VMware ESXi is better.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q3: What is Xen?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Xen is an open-source Type 1 hypervisor that allows multiple OSes to run on the same hardware.<br>
+          <span class="text-lime-500">Example: Amazon EC2 used Xen for virtualization before moving to its new Nitro system.</span></p>
+        </div>
+      </div>
+    </section>
 
+    <!-- Section 3: IaaS -->
+    <section id="iaas" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">03. Infrastructure as a Service (IaaS) using AWS</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is IaaS?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Infrastructure as a Service provides virtualized computing resources over the internet like servers, storage, and networking.<br>
+          <span class="text-lime-500">Example: AWS EC2 lets you launch virtual servers that you can configure with your own software.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: Give an example of IaaS in AWS.</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Amazon EC2 (Elastic Compute Cloud) gives you virtual servers to manage just like a physical machine.<br>
+          <span class="text-lime-500">Example: A company can host a website by launching an EC2 instance and installing a web server like Apache on it.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: PaaS -->
+    <section id="paas" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">04. Platform as a Service (PaaS) using AWS Elastic Beanstalk</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is PaaS?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Platform as a Service offers a complete development and deployment environment in the cloud.<br>
+          <span class="text-lime-500">Example: Deploying a Node.js app without managing the server or database manually.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: What is AWS Elastic Beanstalk?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>AWS Elastic Beanstalk helps developers deploy and manage applications easily. Just upload your code and AWS does the rest.<br>
+          <span class="text-lime-500">Example: A developer can upload a Python app and Elastic Beanstalk will automatically deploy it with the required environment.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: IAM -->
+    <section id="iam" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">05. Identity and Access Management (IAM) in AWS</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is IAM?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>IAM is a service that helps you manage users, groups, roles, and permissions securely in AWS.<br>
+          <span class="text-lime-500">Example: Giving one user access to only S3 while another can manage EC2 instances.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: Why is IAM important?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>IAM protects your cloud resources from unauthorized access. It ensures users only get the access they need.<br>
+          <span class="text-lime-500">Example: In a company, the HR team gets access to employee data but not to servers or billing.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Security as a Service -->
+    <section id="security" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">06. Security as a Service on AWS/Azure</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is Security as a Service?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>It is a cloud-based security solution that includes firewalls, intrusion detection, and encryption.<br>
+          <span class="text-lime-500">Example: AWS WAF (Web Application Firewall) protects your web apps from attacks like SQL injection.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: Give examples.</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <ul class="list-disc pl-5">
+            <li>AWS Shield – protects against DDoS attacks</li>
+            <li>Azure Security Center – security recommendations and threat detection</li>
+            <li>AWS GuardDuty – detects threats and anomalies</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Storage as a Service -->
+    <section id="storage" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">07. Storage as a Service using AWS S3, Glacier, Azure</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is Storage as a Service?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>It allows you to store, manage, and access your data in the cloud instead of on hard drives.<br>
+          <span class="text-lime-500">Example: You upload files to S3 and access them from anywhere.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: What is Amazon S3 and Glacier?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>S3 is used for frequently accessed data. Glacier is for long-term backup and infrequent access.<br>
+          <span class="text-lime-500">Example: Store your project files in S3 and old college notes in Glacier.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 8: Database as a Service -->
+    <section id="dbaas" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">08. Database as a Service using AWS RDS, Azure SQL</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is DBaaS?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>A fully managed cloud database service. No need to manage setup, updates, or backups.<br>
+          <span class="text-lime-500">Example: AWS RDS lets you launch a MySQL database with just a few clicks.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: What is AWS RDS?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>AWS RDS helps you set up and manage relational databases like MySQL, PostgreSQL, and SQL Server.<br>
+          <span class="text-lime-500">Example: An e-commerce site can use RDS to store customer and order data.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q3: Difference between SQL and NoSQL?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>SQL uses tables with fixed schemas. NoSQL has flexible schemas and supports documents, key-values, graphs, etc.<br>
+          <span class="text-lime-500">Example: Use SQL for banking data; NoSQL like MongoDB for social media feeds.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 9: Containerization -->
+    <section id="container" class="mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-cyan-700 mb-4">09. Containerization using Docker on AWS/Azure/GCP</h2>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q1: What is containerization?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Packaging software and its dependencies into a container that runs the same anywhere.<br>
+          <span class="text-lime-500">Example: A container can hold a Python app and its libraries, ensuring it runs the same everywhere.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q2: What is Docker?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Docker is a tool to create, deploy, and manage containers.<br>
+          <span class="text-lime-500">Example: Developers use Docker to ship apps without worrying about the environment differences.</span></p>
+        </div>
+      </div>
+      <div class="question-card bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+        <button class="w-full text-left text-base sm:text-lg font-medium text-purple-700 toggle-btn focus:outline-none">Q3: Why use containers?</button>
+        <div class="answer hidden mt-2 text-gray-800 text-sm sm:text-base">
+          <p>Containers are lightweight, portable, fast, and ensure consistency across environments.<br>
+          <span class="text-lime-500">Example: A startup uses Docker to deploy their app on both AWS and Azure without changing code.</span></p>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- JavaScript for Navigation and Toggle Functionality -->
@@ -133,17 +349,16 @@
     // Navigation Menu Toggle for Mobile
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.querySelector('.nav-menu-mobile');
-    const navLinks = mobileMenu.querySelectorAll('a');
 
     menuToggle.addEventListener('click', () => {
-      const isOpen = !mobileMenu.classList.contains('hidden');
       mobileMenu.classList.toggle('hidden');
       menuToggle.classList.toggle('menu-open');
-      menuToggle.setAttribute('aria-expanded', !isOpen);
+      const isExpanded = !mobileMenu.classList.contains('hidden');
+      menuToggle.setAttribute('aria-expanded', isExpanded);
     });
 
     // Close mobile menu when a link is clicked
-    navLinks.forEach(link => {
+    document.querySelectorAll('.nav-menu-mobile .nav-link').forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.add('hidden');
         menuToggle.classList.remove('menu-open');
@@ -151,21 +366,30 @@
       });
     });
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-        mobileMenu.classList.add('hidden');
-        menuToggle.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-
     // Question/Answer Toggle
     document.querySelectorAll('.toggle-btn').forEach(button => {
       button.addEventListener('click', () => {
         const answer = button.nextElementSibling;
+        const isHidden = answer.classList.contains('hidden');
+
+        // Toggle visibility
         answer.classList.toggle('hidden');
-        button.classList.toggle('text-purple-900');
+
+        // Update button styling
+        button.classList.toggle('text-purple-900', isHidden);
+
+        // Handle smooth height transition
+        if (isHidden) {
+          answer.style.maxHeight = `${answer.scrollHeight}px`;
+          setTimeout(() => {
+            answer.style.maxHeight = '500px'; // Ensure it doesn't cut off content
+          }, 300);
+        } else {
+          answer.style.maxHeight = `${answer.scrollHeight}px`;
+          setTimeout(() => {
+            answer.style.maxHeight = '0';
+          }, 10);
+        }
       });
     });
   </script>
